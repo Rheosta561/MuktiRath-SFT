@@ -1,6 +1,7 @@
 const User = require('../Models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Profile = require('../Models/Profile');
 
  const login = async (req, res) => {
   try {
@@ -96,4 +97,22 @@ const signup = async (req, res) => {
 };
 
 
-module.exports = {login , signup};
+const clearAllUsers = async (req, res) => {
+  try {
+    await User.deleteMany({});
+    res.status(200).json({ message: "All users deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting users", error: error.message });
+  }
+};
+
+const clearAllProfiles = async (req, res) => {
+  try {
+    await Profile.deleteMany({});
+    res.status(200).json({ message: "All profiles deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting profiles", error: error.message });
+  }
+}
+
+module.exports = {login , signup , clearAllUsers, clearAllProfiles};

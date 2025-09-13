@@ -52,7 +52,7 @@ const ProfileSchema = new mongoose.Schema(
       }
     ],
 
-    groupUrl : {
+    whatsappGroup : {
       type:String 
 
     }

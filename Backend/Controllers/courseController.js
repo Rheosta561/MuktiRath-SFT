@@ -78,6 +78,8 @@ exports.joinCourse = async (req, res) => {
       return res.status(404).json({ success: false, message: "Course not found" });
     }
 
+    console.log('profileId, courseId', profileId, courseId);  
+
     // 2. Find profile
     const profile = await Profile.findById(profileId);
     if (!profile) {
@@ -89,6 +91,8 @@ exports.joinCourse = async (req, res) => {
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
+
+    console.log('user found', user);
 
     // 4. Check if user already enrolled (via UserCourse)
     const alreadyEnrolled = await UserCourse.findOne({

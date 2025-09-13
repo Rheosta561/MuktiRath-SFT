@@ -5,19 +5,19 @@ const User = require('../Models/User');
 
 const updateProfile = async (req, res) => {
   try {
-    const { id } = req.body; // profile id from route
-    const updateData = req.body; // updated profile fields
+    console.log('hit')
+    const { userId, ...updateData } = req.body;
 
-    // Find profile by ID and update
+    const user = await User.findById(userId);
+    if (!user || !user.profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
     const updatedProfile = await Profile.findByIdAndUpdate(
-      id,
+      user.profile,
       updateData,
       { new: true, runValidators: true }
     );
-
-    if (!updatedProfile) {
-      return res.status(404).json({ message: 'Profile not found' });
-    }
 
     res.status(200).json({
       message: 'Profile updated successfully',
@@ -30,29 +30,30 @@ const updateProfile = async (req, res) => {
     });
   }
 };
+
 const createProfile = async (req, res) => {
   try {
     const {
-      // name,
-      // bloodGroup,
-      // healthCondition,
-      // otherHealthCondition,
-      // interests,
-      // aspiration,
-      // shortStory,
+      name,
+      bloodGroup,
+      healthCondition,
+      otherHealthCondition,
+      interests,
+      aspiration,
+      shortStory,
       coordinates,
       userId 
     } = req.body;
 
     // 1. Create new profile
     const newProfile = new Profile({
-      // name,
-      // bloodGroup,
-      // healthCondition,
-      // otherHealthCondition,
-      // interests,
-      // aspiration,
-      // shortStory,
+      name,
+      bloodGroup,
+      healthCondition,
+      otherHealthCondition,
+      interests,
+      aspiration,
+      shortStory,
       coordinates,
     });
 
@@ -80,6 +81,7 @@ const createProfile = async (req, res) => {
 
 const updateProfileWithNumber = async (req, res) => {
   try {
+    console.log('Request Body:', req.body);
     const { phone } = req.body;
     console.log('Phone:', phone);
 
@@ -107,7 +109,7 @@ const updateProfileWithNumber = async (req, res) => {
       interests,
       aspiration,
       shortStory,
-      groupUrl ,
+      whatsappGroup ,
     } = req.body;
 
     // Update the profile
@@ -121,7 +123,7 @@ const updateProfileWithNumber = async (req, res) => {
         interests,
         aspiration,
         shortStory,
-        groupUrl
+        whatsappGroup
       },
       { new: true, lean: true } // return updated doc as plain object
     );
@@ -134,8 +136,21 @@ const updateProfileWithNumber = async (req, res) => {
   }
 };
 
-module.exports = updateProfileWithNumber;
+
+const getProfile = async(req , res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId).populate('profile');
+    if (!user || !user.profile) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+    res.status(200).json({ profile: user.profile });
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong', error: error.message });
+  }
+};
 
 
 
-module.exports = { updateProfile , createProfile , updateProfileWithNumber};
+
+module.exports = { updateProfile , getProfile, createProfile , updateProfileWithNumber};

@@ -13,6 +13,7 @@ const orderRouter = require('./Routes/orderRoutes');
 const userMarketRouter = require('./Routes/userMarketRoutes');
 const productRouter = require('./Routes/productRoutes');
 const organisationRouter = require('./Routes/OrganisationRouter');
+const translationRouter = require('./Routes/translationRouter');
 
 conn.conn();
 
@@ -33,6 +34,7 @@ app.use('/orders', orderRouter);
 app.use('/userMarket', userMarketRouter);
 app.use('/product', productRouter);
 app.use('/organisation', organisationRouter );
+app.use('/translate', translationRouter );
 
 
 const port= process.env.PORT || 3000;
