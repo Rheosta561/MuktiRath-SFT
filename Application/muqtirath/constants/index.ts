@@ -27,6 +27,19 @@ export type RootStackParamList = {
 };
 
 
+export interface JwtPayloadWithUser {
+  exp: number;
+  iat: number;
+  user: User;
+}
+export interface User {
+  _id: string;
+  phone: number;
+  password: string;
+  __v: number;
+}
+
+
 export interface content{
     id : string ;
     title : string ;
@@ -139,6 +152,10 @@ type OrderCard = {
   title: string
   quantity: string
 }
+
+
+
+
 
 export type CardType = JobCard | OrderCard
 

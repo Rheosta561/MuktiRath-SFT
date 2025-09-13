@@ -8,6 +8,7 @@ import { AuthContext, AuthProvider } from "@/Context/AuthContext";
 import { NavigationContainer, NavigationIndependentTree } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast from "react-native-toast-message";
+import { TranslationProvider } from "@/Context/TranslatationContext";
  
 export default function Index() {
   return (
@@ -18,8 +19,10 @@ export default function Index() {
     <AuthProvider>
 <NavigationIndependentTree>
 <NavigationContainer>
+  <TranslationProvider>
               <AppNavigator />
                  <Toast/>
+</TranslationProvider>
 </NavigationContainer>
 </NavigationIndependentTree>
 

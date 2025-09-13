@@ -1,7 +1,8 @@
-import { View, Text, TouchableOpacity, FlatList } from 'react-native'
+import { View,  TouchableOpacity, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import { ArrowLeft, ArrowDownCircle } from 'lucide-react-native'
 import { useNavigation } from '@react-navigation/native'
+import { Text } from '@/components/AutoTranslateText'
 
 const WalletScreen = () => {
   const [balance] = useState(2500) // Example balance

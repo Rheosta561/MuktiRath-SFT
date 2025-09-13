@@ -49,6 +49,7 @@ export default function SignupScreen() {
     });
 
     const data = await res.json();
+    console.log("Signup response:", data);
 
     if (!res.ok) {
       if (data.status === 400) {

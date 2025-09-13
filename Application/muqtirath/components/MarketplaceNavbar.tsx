@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, TouchableOpacity, Image } from 'react-native'
+import { Text } from '@/components/AutoTranslateText'
 import React from 'react'
 import { Wallet, ShoppingBag } from 'lucide-react-native'
 import { useNavigation } from '@react-navigation/native'

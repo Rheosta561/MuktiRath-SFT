@@ -1,4 +1,5 @@
-import { View, Text, Pressable } from "react-native";
+import { View,  Pressable } from "react-native";
+import { Text } from "@/components/AutoTranslateText";
 import React, { useState } from "react";
 import { courseCardProps } from "@/constants";
 import { Lightbulb, MoreVertical } from "lucide-react-native";

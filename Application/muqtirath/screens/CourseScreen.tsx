@@ -1,6 +1,6 @@
 import { 
-  View, Text, ScrollView, Dimensions, TextInput, 
-  Modal, Pressable, TouchableOpacity, Image, ActivityIndicator 
+  View,  ScrollView, Dimensions, TextInput, 
+  Modal, Pressable, TouchableOpacity, Image, ActivityIndicator, RefreshControl 
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import NavLayout from '@/components/NavLayout';
@@ -10,12 +10,12 @@ import CourseCard from '@/components/CourseCard';
 import Constants from "expo-constants";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
-
+import { Text } from '@/components/AutoTranslateText';
 
 const { width } = Dimensions.get("window");
 const backendUrl = Constants.expoConfig?.extra?.backendUrl;
 
-// Recommended courses (dummy)
+// recommended courses (dummy)
 const recommendedCourses = [
   {
     id: "R001",
@@ -55,58 +55,72 @@ const CourseScreen = () => {
   const [myCoursesEnrolled, setMyCoursesEnrolled] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [enrolling, setEnrolling] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [profileId, setProfileId] = useState<string | null>(null);
 
-  // Function to fetch my enrolled courses
+  // Fetch enrolled courses
   const fetchMyCourses = async (uid: string) => {
     try {
-      console.log(uid);
+      console.log("Fetching my courses for user:", uid);
       const resMy = await fetch(`${backendUrl}/course/user/${uid}`);
       if (resMy.ok) {
         const myCoursesData = await resMy.json();
-        console.log(myCoursesData);
         setMyCoursesEnrolled(myCoursesData || []);
-      } else {
-        console.error("Failed to fetch my courses");
       }
     } catch (err) {
       console.error("Error fetching my courses:", err);
     }
   };
 
-  // Fetch all courses + my enrolled courses
+  // Fetch all courses
+  const fetchAllCourses = async () => {
+    try {
+      const resAll = await fetch(`${backendUrl}/course`);
+      if (resAll.ok) {
+        const dataAll = await resAll.json();
+        setAllCourses(dataAll.data || []);
+      }
+    } catch (err) {
+      console.error("Error fetching all courses:", err);
+    }
+  };
+
+  // Refresh handler
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      if (userId) {
+        await fetchMyCourses(userId);
+      }
+      await fetchAllCourses();
+    } catch (err) {
+      console.error("Refresh error:", err);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  // Initial data fetching
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         setLoading(true);
-
-        // Get user token
         const token = await AsyncStorage.getItem('userToken');
         if (token) {
           const decodedData = jwtDecode<JwtPayloadWithUser>(token);
           setUserId(decodedData.user._id);
 
-          // Get profileId from AsyncStorage
           const storedProfile = await AsyncStorage.getItem('userProfile');
-          console.log(storedProfile);
           if (storedProfile) {
             const parsedProfile = JSON.parse(storedProfile);
             setProfileId(parsedProfile._id);
           }
         }
-
-        // Fetch all courses
-        const resAll = await fetch(`${backendUrl}/course`);
-        const dataAll = await resAll.json();
-        setAllCourses(dataAll.data || []);
-
-        // Fetch my enrolled courses
-
+        await fetchAllCourses();
         if (userId) {
           await fetchMyCourses(userId);
         }
-
       } catch (err) {
         console.error("Failed to fetch courses:", err);
       } finally {
@@ -116,9 +130,6 @@ const CourseScreen = () => {
 
     fetchCourses();
   }, [userId]);
-
-  console.log('my courses ' ,myCoursesEnrolled);
-
 
   const handleScroll = (event: any) => {
     const scrollX = event.nativeEvent.contentOffset.x;
@@ -130,7 +141,6 @@ const CourseScreen = () => {
     course.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Enroll in a course
   const handleEnroll = async (courseId: string) => {
     if (!profileId || !userId) {
       alert("Profile not found");
@@ -144,11 +154,12 @@ const CourseScreen = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ profileId, courseId }),
       });
+      console.log("Enroll response status:", res);
+
 
       const data = await res.json();
       if (res.ok) {
         alert(data.message);
-        // Refresh my courses after enrollment
         await fetchMyCourses(userId);
         setModalVisible(false);
       } else {
@@ -163,17 +174,22 @@ const CourseScreen = () => {
   };
 
   return (
-    <View className='h-full'>
+    <View className="h-full">
       <NavLayout>
         {/* Header */}
-        <View className='px-4 flex flex-row items-end'>
+        <View className="px-4 flex flex-row items-end">
           <Library size={44} color="black" />
-          <Text className='font-medium text-2xl ml-2'>PathShaala</Text>
+          <Text className="font-medium text-2xl ml-2">PathShaala</Text>
         </View>
 
-        <ScrollView className='mt-2'>
+        <ScrollView
+          className="mt-2"
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           {/* Enrolled Courses Section */}
-          <View className='h-fit p-2 border rounded-md border-gray-200'>
+          <View className="h-fit p-2 border rounded-md border-gray-200">
             {loading ? (
               <ActivityIndicator size="large" className="mt-8" color="black" />
             ) : myCoursesEnrolled.length > 0 ? (
@@ -188,11 +204,11 @@ const CourseScreen = () => {
                   {myCoursesEnrolled.map((course) => (
                     <View key={course._id} style={{ width: width * 0.88 }}>
                       <CourseDisplay
-  key={course._id}
-  course={course.course}          
-  completedModules={course.completedModules}
-  progress={course.progress}
-/>
+                        key={course._id}
+                        course={course.course}
+                        completedModules={course.completedModules}
+                        progress={course.progress}
+                      />
                     </View>
                   ))}
                 </ScrollView>
@@ -260,24 +276,23 @@ const CourseScreen = () => {
 
           {/* Recommended Section */}
           <View className="mt-6 px-2 mb-60">
-  <Text className="text-lg font-semibold mb-3">Recommended For You</Text>
+            <Text className="text-lg font-semibold mb-3">Recommended For You</Text>
 
-  <View className="flex flex-col gap-4">
-    {allCourses
-      .filter(
-        (course) =>
-          !myCoursesEnrolled.some((uc) => uc.course._id === course._id) // exclude already enrolled
-      )
-      .map((course) => (
-        <CourseCard
-          key={course._id}
-          {...course}
-          enroll={() => handleEnroll(course._id)}
-        />
-      ))}
-  </View>
-</View>
-
+            <View className="flex flex-col gap-4">
+              {allCourses
+                .filter(
+                  (course) =>
+                    !myCoursesEnrolled.some((uc) => uc.course._id === course._id)
+                )
+                .map((course) => (
+                  <CourseCard
+                    key={course._id}
+                    {...course}
+                    enroll={() => handleEnroll(course._id)}
+                  />
+                ))}
+            </View>
+          </View>
         </ScrollView>
       </NavLayout>
 
@@ -297,9 +312,15 @@ const CourseScreen = () => {
                   style={{ width: "100%", height: 160, borderRadius: 8 }}
                   resizeMode="cover"
                 />
-                <Text className="text-xl font-semibold mt-3">{selectedCourse.title}</Text>
-                <Text className="text-gray-600 mt-1">{selectedCourse.organisation}</Text>
-                <Text className="text-gray-600 mt-1">{selectedCourse.description}</Text>
+                <Text className="text-xl font-semibold mt-3">
+                  {selectedCourse.title}
+                </Text>
+                <Text className="text-gray-600 mt-1">
+                  {selectedCourse.organisation}
+                </Text>
+                <Text className="text-gray-600 mt-1">
+                  {selectedCourse.description}
+                </Text>
 
                 <View className="flex flex-row flex-wrap mt-2">
                   {selectedCourse.tags?.map((tag: string, idx: number) => (

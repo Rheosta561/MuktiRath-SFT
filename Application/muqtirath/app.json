@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "muqtirath",
-    "slug": "muqtirath",
+    "name": "muktirath",
+    "slug": "muktirath",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -51,7 +51,8 @@
       "eas": {
         "projectId": "b1c8f0d3-2f3a-4a5b-9f4e-1e3b6f4c9e2d"
       },
-      "backendUrl" : "http://172.20.10.12:3000"
+      "backendUrl" : "https://muktirath-sft.onrender.com",
+      "GEMINI_API_KEY": "AIzaSyCCTs1wW39z4rkXqe3Vrwl3TpjnYHvyI5k"
       
     }
 

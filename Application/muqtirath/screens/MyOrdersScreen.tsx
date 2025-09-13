@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   View,
-  Text,
+  
   TouchableOpacity,
   Image,
   FlatList,
@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
+import { Text } from '@/components/AutoTranslateText'
 import {
   ArrowLeft,
   CheckCircle,
@@ -72,7 +73,7 @@ const MyOrdersScreen = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        // ✅ Get token and decode userId
+        // Get token and decode userId
         const token = await AsyncStorage.getItem('userToken')
         if (!token) {
           console.warn('User token not found in AsyncStorage')
@@ -154,12 +155,12 @@ const MyOrdersScreen = () => {
         <View className="ml-4 flex-1">
           <Text className="text-lg font-semibold text-gray-800">{item.title}</Text>
           <Text className="text-sm text-gray-500">
-            Total: ₹{item.totalAmount} • Payment: {item.paymentMethod}
+            Total: ₹200 • Payment: Cash On Delivery 
           </Text>
           {item.organisation && (
             <View className="flex-row items-center mt-1">
               <Building2 size={16} color="#4B5563" />
-              <Text className="ml-1 text-gray-700 font-medium">{item.organisation.name}</Text>
+              <Text className="ml-1 text-gray-700 font-medium">MuktiRath</Text>
             </View>
           )}
           {item.organisation?.number && (

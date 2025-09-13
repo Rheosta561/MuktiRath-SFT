@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View,  TouchableOpacity } from 'react-native'
+import { Text } from '@/components/AutoTranslateText'
 import React from 'react'
 import { Calendar } from 'lucide-react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'

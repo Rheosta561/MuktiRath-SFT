@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
+
   ScrollView,
   TouchableOpacity,
   useWindowDimensions,
@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import Constants from "expo-constants";
 import ChatModal from "@/components/ChatModal";
-
+import { Text } from "@/components/AutoTranslateText";
 const backendUrl = Constants.expoConfig?.extra?.backendUrl;
 
 type CoursePlayerRouteProp = RouteProp<RootStackParamList, "CoursePlayer">;

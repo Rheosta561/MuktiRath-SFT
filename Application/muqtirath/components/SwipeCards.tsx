@@ -1,6 +1,7 @@
 import { RefreshCw, Building2, Tag } from 'lucide-react-native'
 import React, { useState } from 'react'
-import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native'
+import { View, Image, Dimensions, TouchableOpacity } from 'react-native'
+import { Text } from '@/components/AutoTranslateText'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, {
   useSharedValue,

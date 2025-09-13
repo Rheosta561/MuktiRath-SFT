@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
+import { Text } from "@/components/AutoTranslateText";
 import { MapPin, Briefcase, Building2 } from "lucide-react-native";
 
 type JobCardProps = {

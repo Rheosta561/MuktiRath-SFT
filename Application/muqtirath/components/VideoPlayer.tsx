@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
+import { Text } from "@/components/AutoTranslateText";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { CourseContentItem } from "@/constants";
-import { Maximize } from "lucide-react-native"; // ✅ import icon
+import { Maximize } from "lucide-react-native"; 
 
 type Props = {
   lesson: CourseContentItem;

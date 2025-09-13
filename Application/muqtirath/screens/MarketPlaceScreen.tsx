@@ -1,4 +1,5 @@
-import { View, ScrollView, Dimensions, Text } from 'react-native'
+import { View, ScrollView, Dimensions } from 'react-native'
+import { Text } from '@/components/AutoTranslateText'
 import React, { useRef, useState, useEffect } from 'react'
 import NavLayout from '@/components/NavLayout'
 import MarketplaceNavbar from '@/components/MarketplaceNavbar'
@@ -15,16 +16,20 @@ const promos = [
   {
     id: 'promo1',
     imageUrl:
-      'https://images.unsplash.com/photo-1532372722026-28ddb1b48daf?w=1200&auto=format&fit=crop&q=60',
-    title: 'Empowering Help',
-    description: 'Aiming to support 1000+ women and daily workers by 2026.',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLx_PhrZEa81NhAqE9EeY0CH_sJG1dn6eGNg&s',
+    title: 'Empowering Skills',
+
+
+
+    
+    description: 'Helping marginalized communities gain new skills for sustainable livelihoods.',
   },
   {
     id: 'promo2',
     imageUrl:
-      'https://images.unsplash.com/photo-1520981269471-2935a5567932?w=1200&auto=format&fit=crop&q=60',
-    title: 'Stay Updated',
-    description: 'Get the latest news and updates from our platform.',
+      'https://pmay-urban.gov.in/uploads/galleryphoto/Anita%20Dakar_State%20Name-%20Meghalaya_City%20Name-Nongpoh.jpeg',
+    title: 'Inclusive Opportunities',
+    description: 'Providing training, support, and access to resources for every community member.',
   },
 ]
 
@@ -70,6 +75,7 @@ const MarketPlaceScreen = () => {
             totalAmount: order.totalAmount,
             paymentMethod: order.paymentMethod,
             organisationId: order.organisationId?._id,
+            organistationName: order.organisationId?.name,
             items: [
               {
                 productId: item.productId._id,

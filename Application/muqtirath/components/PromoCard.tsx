@@ -1,4 +1,5 @@
-import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
+import { View,  ImageBackground, TouchableOpacity } from "react-native";
+import { Text } from "@/components/AutoTranslateText";
 import React from "react";
 import { promoCardProps } from "@/constants";
 

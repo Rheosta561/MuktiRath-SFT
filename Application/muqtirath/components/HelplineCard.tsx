@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Linking } from "react-native";
+import { View,  TouchableOpacity, Linking } from "react-native";
+import { Text } from "@/components/AutoTranslateText";
 import { Phone } from "lucide-react-native";
 
 interface HelplineCardProps {

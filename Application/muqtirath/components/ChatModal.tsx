@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   View,
-  Text,
+
   Modal,
   TouchableOpacity,
   TextInput,
@@ -11,8 +11,10 @@ import {
   Platform,
   ActivityIndicator,
 } from "react-native";
+import { Text } from "react-native";
 import { X } from "lucide-react-native";
 import axios from "axios";
+import LessonItem from "./LessonItem";
 
 type Message = {
   id: string;
@@ -53,8 +55,8 @@ const ChatModal: React.FC<Props> = ({ visible, onClose , uri }) => {
 
     try {
 
-      const response = await axios.post("http://10.0.16.175:8080/chat", {
-        uri: "https://www.youtube.com/watch?v=YF2Fg_zdwcw",
+      const response = await axios.post("172.20.10.6:8080/chat", {
+        uri: uri,
         input: inputText,
       });
 
