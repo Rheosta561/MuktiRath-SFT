@@ -1,40 +1,25 @@
 import "react-native-reanimated";
-
-
-
-import { Text, View } from "react-native";
-import AppNavigator from "./navigation/AppNavigator";
-import { AuthContext, AuthProvider } from "@/Context/AuthContext";
-import { NavigationContainer, NavigationIndependentTree } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Toast from "react-native-toast-message";
+import { NavigationContainer, NavigationIndependentTree } from "@react-navigation/native";
+import { AuthProvider } from "@/Context/AuthContext";
 import { TranslationProvider } from "@/Context/TranslatationContext";
- 
+import AppNavigator from "./navigation/AppNavigator";
+import Toast from "react-native-toast-message";
+
 export default function Index() {
   return (
-    <GestureHandlerRootView style={{flex:1}}>
-   
-
-    
-    <AuthProvider>
-<NavigationIndependentTree>
-<NavigationContainer>
-  <TranslationProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProvider>
+        <NavigationIndependentTree>
+          <NavigationContainer>
+            <TranslationProvider>
               <AppNavigator />
-                 <Toast/>
-</TranslationProvider>
-</NavigationContainer>
-</NavigationIndependentTree>
+            </TranslationProvider>
+          </NavigationContainer>
+        </NavigationIndependentTree>
+      </AuthProvider>
 
-
-      
-
-    </AuthProvider>
+      <Toast />
     </GestureHandlerRootView>
-
-
-
-
-  
   );
 }

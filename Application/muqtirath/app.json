@@ -10,7 +10,11 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rheoanubhav.muqtirath"
+      "bundleIdentifier": "com.rheoanubhav.muqtirath",
+      "infoPlist": {
+        "NSSpeechRecognitionUsageDescription": "Allow $(PRODUCT_NAME) to recognize speech.",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to use the microphone."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +22,12 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.rheoanubhav.muqtirath"
+      "package": "com.rheoanubhav.muqtirath",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -48,15 +57,12 @@
       "typedRoutes": true
     },
     "extra": {
+      "backendUrl": "https://muktirath-sft.onrender.com",
+      "GEMINI_API_KEY": "AIzaSyCCTs1wW39z4rkXqe3Vrwl3TpjnYHvyI5k",
+      "router": {},
       "eas": {
-        "projectId": "b1c8f0d3-2f3a-4a5b-9f4e-1e3b6f4c9e2d"
-      },
-      "backendUrl" : "https://muktirath-sft.onrender.com",
-      "GEMINI_API_KEY": "AIzaSyCCTs1wW39z4rkXqe3Vrwl3TpjnYHvyI5k"
-      
+        "projectId": "14666c38-76cd-4eb9-8c78-55e63d2bdbbc"
+      }
     }
-
-    
-    
   }
 }
